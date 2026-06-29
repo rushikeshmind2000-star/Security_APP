@@ -27,6 +27,8 @@ export default function App() {
   };
 
   const handleQuickAction = (action) => {
+    if (action === 'clockin')       { setOverlay('clockin'); return; }
+    if (action === 'clockout')      { setIsClockedIn(false); return; }
     if (action === 'sos')           { setOverlay('sos'); return; }
     if (action === 'notifications') { setOverlay('notifications'); return; }
     if (action === 'scan')          { setOverlay('scan'); return; }
@@ -59,13 +61,11 @@ export default function App() {
           {/* ── Auth & Clock-In Flows ── */}
           {!isAuthenticated ? (
             <Auth onLoginSuccess={() => setIsAuthenticated(true)} />
-          ) : !isClockedIn ? (
-            <ClockIn onClockIn={() => setIsClockedIn(true)} />
           ) : (
             <>
               {/* ── Main Screen Content ── */}
               <div className="screen-content">
-                {tab === 'home'    && <Dashboard {...sharedProps} onQuickAction={handleQuickAction} />}
+                {tab === 'home'    && <Dashboard {...sharedProps} isClockedIn={isClockedIn} onQuickAction={handleQuickAction} />}
                 {tab === 'guards'  && <Guards    {...sharedProps} />}
                 {tab === 'patrol'  && <Patrol    {...sharedProps} />}
                 {tab === 'reports' && <Reports   {...sharedProps} />}
@@ -77,6 +77,11 @@ export default function App() {
           )}
 
           {/* ── Full-Screen Overlays ── */}
+          {overlay === 'clockin' && (
+            <div className="sos-full-screen" style={{ background: 'var(--bg-page)', zIndex: 100 }}>
+              <ClockIn onClockIn={() => { setIsClockedIn(true); closeOverlay(); }} />
+            </div>
+          )}
           {overlay === 'sos' && <SOSScreen onBack={closeOverlay} />}
           {overlay === 'scan' && (
             <div className="sos-full-screen" style={{ background: '#000' }}>

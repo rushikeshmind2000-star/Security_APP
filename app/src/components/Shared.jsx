@@ -1,5 +1,5 @@
 import React from 'react';
-
+import * as Ic from './Icons.jsx';
 /* ─── Status Bar ─────────────────────────────── */
 export function StatusBar({ variant = 'white' }) {
   const now = new Date();
@@ -52,7 +52,7 @@ export function BottomNav({ active, onChange }) {
         if (t.isSOS) {
           return (
             <div key={t.id} className="nav-sos-btn" onClick={() => onChange('sos')} title="SOS">
-              🚨
+              <Ic.Shield size={28} color="white" strokeWidth={2} />
             </div>
           );
         }

@@ -8,92 +8,130 @@ export default function ClockIn({ onClockIn }) {
   const [locFetched, setLocFetched] = useState(false);
 
   return (
-    <div className="screen-container" style={{ padding: '0 0 24px 0', background: 'var(--bg-page)' }}>
+    <div className="screen-container" style={{ padding: '0 0 16px 0', background: '#fafafa', minHeight: '100vh', overflowY: 'auto' }}>
       {/* Header */}
-      <div style={{ background: 'var(--red)', padding: '40px 20px 20px', color: 'white', borderBottomLeftRadius: '24px', borderBottomRightRadius: '24px', marginBottom: '24px' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: '800', marginBottom: '8px' }}>Start Shift</h1>
-        <p style={{ opacity: 0.9, fontSize: '14px' }}>Complete check-in to go online</p>
+      <div style={{ 
+        background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', 
+        padding: '36px 20px 20px', color: 'white', 
+        borderBottomLeftRadius: '24px', borderBottomRightRadius: '24px', 
+        marginBottom: '16px', boxShadow: '0 8px 20px rgba(220,38,38,0.15)' 
+      }}>
+        <h1 style={{ fontSize: '24px', fontWeight: '800', marginBottom: '4px', letterSpacing: '-0.5px' }}>Start Shift</h1>
+        <p style={{ opacity: 0.9, fontSize: '14px', fontWeight: '500', margin: 0 }}>Complete check-in to go online</p>
       </div>
 
       <div style={{ padding: '0 20px' }}>
         
         {/* Step 1: Photo */}
-        <div className="card mb-16" style={{ opacity: step >= 1 ? 1 : 0.5, transition: '0.3s' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-            <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: photoTaken ? 'var(--green)' : 'var(--red)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
-              {photoTaken ? <Ic.Check size={16} /> : "1"}
+        <div style={{ 
+          background: 'white', padding: '16px', borderRadius: '20px', 
+          boxShadow: '0 4px 20px rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.03)',
+          marginBottom: '12px', opacity: step >= 1 ? 1 : 0.5, transition: '0.3s' 
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+            <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: photoTaken ? '#10b981' : '#fef2f2', color: photoTaken ? 'white' : '#dc2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800' }}>
+              {photoTaken ? <Ic.Check size={18} /> : "1"}
             </div>
-            <h3 style={{ fontSize: '16px', fontWeight: '700' }}>Selfie Verification</h3>
+            <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#111827', margin: 0 }}>Selfie Verification</h3>
           </div>
           
           {!photoTaken ? (
             <div 
-              style={{ background: 'var(--bg-page)', border: '2px dashed var(--border)', borderRadius: 'var(--r)', padding: '32px', textAlign: 'center' }}
+              style={{ background: '#fef2f2', border: '2px dashed #fca5a5', borderRadius: '12px', padding: '16px', textAlign: 'center', cursor: 'pointer' }}
               onClick={() => { setPhotoTaken(true); setStep(2); }}
             >
-              <Ic.User size={32} color="var(--text-sub)" style={{ marginBottom: '12px' }} />
-              <div style={{ fontSize: '14px', fontWeight: '600', color: 'var(--text)' }}>Tap to capture photo</div>
-              <div style={{ fontSize: '12px', color: 'var(--text-sub)' }}>Ensure your face and uniform are visible</div>
+              <Ic.User size={28} color="#ef4444" style={{ marginBottom: '8px' }} />
+              <div style={{ fontSize: '14px', fontWeight: '700', color: '#dc2626' }}>Tap to capture photo</div>
+              <div style={{ fontSize: '12px', color: '#f87171', marginTop: '2px' }}>Face and uniform visible</div>
             </div>
           ) : (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--green-soft)', padding: '12px', borderRadius: 'var(--r)' }}>
-              <img src="https://i.pravatar.cc/150?u=ramesh" style={{ width: '48px', height: '48px', borderRadius: '8px', objectFit: 'cover' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#ecfdf5', border: '1px solid #d1fae5', padding: '12px', borderRadius: '12px' }}>
+              <img src="https://i.pravatar.cc/150?u=ramesh" style={{ width: '40px', height: '40px', borderRadius: '8px', objectFit: 'cover' }} />
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: '14px', fontWeight: '700', color: 'var(--green)' }}>Photo Verified</div>
-                <div style={{ fontSize: '12px', color: 'var(--green)', opacity: 0.8 }}>Matched with profile</div>
+                <div style={{ fontSize: '14px', fontWeight: '800', color: '#059669' }}>Photo Verified</div>
+                <div style={{ fontSize: '12px', color: '#10b981', fontWeight: '500' }}>Matched with profile</div>
               </div>
             </div>
           )}
         </div>
 
         {/* Step 2: Location */}
-        <div className="card mb-16" style={{ opacity: step >= 2 ? 1 : 0.5, transition: '0.3s' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-            <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: locFetched ? 'var(--green)' : (step >= 2 ? 'var(--red)' : 'var(--border)'), color: step >= 2 ? 'white' : 'var(--text-sub)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
-              {locFetched ? <Ic.Check size={16} /> : "2"}
+        <div style={{ 
+          background: 'white', padding: '16px', borderRadius: '20px', 
+          boxShadow: '0 4px 20px rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.03)',
+          marginBottom: '12px', opacity: step >= 2 ? 1 : 0.5, transition: '0.3s' 
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+            <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: locFetched ? '#10b981' : (step >= 2 ? '#fef2f2' : '#f3f4f6'), color: locFetched ? 'white' : (step >= 2 ? '#dc2626' : '#9ca3af'), display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800' }}>
+              {locFetched ? <Ic.Check size={18} /> : "2"}
             </div>
-            <h3 style={{ fontSize: '16px', fontWeight: '700' }}>Location Access</h3>
+            <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#111827', margin: 0 }}>Location Access</h3>
           </div>
 
           {!locFetched ? (
              <button 
-              className={`btn ${step >= 2 ? 'btn-primary' : 'btn-secondary'}`} 
-              style={{ width: '100%', padding: '14px' }}
+              style={{ 
+                width: '100%', padding: '14px', fontSize: '14px', fontWeight: '700',
+                background: step >= 2 ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' : '#f3f4f6', 
+                color: step >= 2 ? 'white' : '#9ca3af',
+                borderRadius: '12px', border: 'none', display: 'flex', alignItems: 'center',
+                justifyContent: 'center', gap: '8px', 
+                boxShadow: step >= 2 ? '0 4px 15px rgba(220, 38, 38, 0.25)' : 'none',
+                cursor: step >= 2 ? 'pointer' : 'not-allowed'
+              }}
               onClick={() => { if (step >= 2) { setLocFetched(true); setStep(3); } }}
              >
-               <Ic.MapPin size={18} style={{ marginRight: '8px' }} /> Fetch GPS Location
+               <Ic.MapPin size={18} /> Fetch GPS Location
              </button>
           ) : (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--green-soft)', padding: '12px', borderRadius: 'var(--r)' }}>
-              <div style={{ width: '40px', height: '40px', background: 'rgba(255,255,255,0.5)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Ic.MapPin size={20} color="var(--green)" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#ecfdf5', border: '1px solid #d1fae5', padding: '12px', borderRadius: '12px' }}>
+              <div style={{ width: '40px', height: '40px', background: 'white', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Ic.MapPin size={20} color="#059669" />
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: '14px', fontWeight: '700', color: 'var(--green)' }}>Location Acquired</div>
-                <div style={{ fontSize: '12px', color: 'var(--green)', opacity: 0.8 }}>Industrial Zone A · Sector 12</div>
+                <div style={{ fontSize: '14px', fontWeight: '800', color: '#059669' }}>Location Acquired</div>
+                <div style={{ fontSize: '12px', color: '#10b981', fontWeight: '500' }}>Industrial Zone A · Sector 12</div>
               </div>
             </div>
           )}
         </div>
 
         {/* Step 3: Clock In */}
-        <div className="card" style={{ opacity: step >= 3 ? 1 : 0.5, transition: '0.3s' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-            <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: step >= 3 ? 'var(--red)' : 'var(--border)', color: step >= 3 ? 'white' : 'var(--text-sub)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
+        <div style={{ 
+          background: 'white', padding: '16px', borderRadius: '20px', 
+          boxShadow: '0 4px 20px rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.03)',
+          marginBottom: '16px', opacity: step >= 3 ? 1 : 0.5, transition: '0.3s' 
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+            <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: step >= 3 ? '#fef2f2' : '#f3f4f6', color: step >= 3 ? '#dc2626' : '#9ca3af', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800' }}>
               3
             </div>
-            <h3 style={{ fontSize: '16px', fontWeight: '700' }}>Go Online</h3>
+            <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#111827', margin: 0 }}>Go Online</h3>
           </div>
-
-          <p style={{ fontSize: '13px', color: 'var(--text-sub)', marginBottom: '20px' }}>By clocking in, you confirm you are at the designated site and in proper uniform.</p>
+          
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '16px', background: '#f8fafc', padding: '12px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+            <input type="checkbox" id="share-loc" defaultChecked style={{ marginTop: '2px', width: '18px', height: '18px', accentColor: '#10b981', cursor: 'pointer' }} />
+            <label htmlFor="share-loc" style={{ fontSize: '12px', color: '#475569', lineHeight: '1.4', cursor: 'pointer' }}>
+              <b style={{ color: '#0f172a', display: 'block', marginBottom: '2px' }}>Share Live Location</b>
+              Share my live location continuously during the entire duty period.
+            </label>
+          </div>
           
           <button 
-            className={`btn ${step >= 3 ? 'btn-primary' : 'btn-secondary'}`} 
-            style={{ width: '100%', padding: '16px', fontSize: '16px', background: step >= 3 ? 'var(--green)' : '' }}
+            style={{ 
+              width: '100%', padding: '16px', fontSize: '15px', fontWeight: '800',
+              background: step >= 3 ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : '#f3f4f6', 
+              color: step >= 3 ? 'white' : '#9ca3af',
+              borderRadius: '12px', border: 'none', display: 'flex', alignItems: 'center',
+              justifyContent: 'center', gap: '8px', 
+              boxShadow: step >= 3 ? '0 8px 20px rgba(16, 185, 129, 0.25)' : 'none',
+              cursor: step >= 3 ? 'pointer' : 'not-allowed',
+              textTransform: 'uppercase', letterSpacing: '1px'
+            }}
             onClick={() => { if (step >= 3) onClockIn(); }}
             disabled={step < 3}
           >
-            Clock In & Go Online
+            Submit
           </button>
         </div>
 

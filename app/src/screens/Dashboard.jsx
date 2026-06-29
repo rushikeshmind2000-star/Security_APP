@@ -8,7 +8,7 @@ const activity = [
   { icon: <Ic.MapPin size={18} color="var(--orange)" />, bg: '#FFF3E0', title: 'Patrol Completed', sub: 'Perimeter Route A', time: 'Yesterday' },
 ];
 
-export default function Dashboard({ onBell, onAvatar, onQuickAction }) {
+export default function Dashboard({ onBell, onAvatar, onQuickAction, isClockedIn }) {
   const today = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good Morning' : hour < 17 ? 'Good Afternoon' : 'Good Evening';
@@ -36,34 +36,49 @@ export default function Dashboard({ onBell, onAvatar, onQuickAction }) {
 
       {/* Stats Cards - Guard Specific */}
       <div style={{ background: 'var(--bg-page)', flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <div className="dash-stats-row">
-          <div className="dash-stat-card">
-            <div className="ds-icon" style={{ background: 'var(--blue-soft)' }}><Ic.Clock size={20} color="var(--blue)" /></div>
-            <div className="ds-value" style={{ color: 'var(--blue)' }}>02:15</div>
-            <div className="ds-label">Hours on Duty</div>
-            <div className="ds-delta ds-up">Until 04:00 PM</div>
+        {isClockedIn ? (
+          <div className="dash-stats-row">
+            <div className="dash-stat-card">
+              <div className="ds-icon" style={{ background: 'var(--blue-soft)' }}><Ic.Clock size={20} color="var(--blue)" /></div>
+              <div className="ds-value" style={{ color: 'var(--blue)' }}>02:15</div>
+              <div className="ds-label">Hours on Duty</div>
+              <div className="ds-delta ds-up">Until 04:00 PM</div>
+            </div>
+            <div className="dash-stat-card">
+              <div className="ds-icon" style={{ background: 'var(--green-soft)' }}><Ic.CheckCircle size={20} color="var(--green)" /></div>
+              <div className="ds-value" style={{ color: 'var(--green)' }}>12/15</div>
+              <div className="ds-label">Checkpoints</div>
+              <div className="ds-delta ds-up">3 Remaining</div>
+            </div>
+            <div className="dash-stat-card">
+              <div className="ds-icon" style={{ background: 'var(--orange-soft)' }}><Ic.MapPin size={20} color="var(--orange)" /></div>
+              <div className="ds-value" style={{ color: 'var(--orange)' }}>2.4 km</div>
+              <div className="ds-label">Distance Walked</div>
+              <div className="ds-delta ds-up">On schedule</div>
+            </div>
+            <div className="dash-stat-card">
+              <div className="ds-icon" style={{ background: 'var(--purple-soft)' }}><Ic.Award size={20} color="var(--purple)" /></div>
+              <div className="ds-value" style={{ color: 'var(--purple)' }}>100%</div>
+              <div className="ds-label">Attendance</div>
+              <div className="ds-delta ds-up">Perfect this week</div>
+            </div>
           </div>
-          <div className="dash-stat-card">
-            <div className="ds-icon" style={{ background: 'var(--green-soft)' }}><Ic.CheckCircle size={20} color="var(--green)" /></div>
-            <div className="ds-value" style={{ color: 'var(--green)' }}>12/15</div>
-            <div className="ds-label">Checkpoints</div>
-            <div className="ds-delta ds-up">3 Remaining</div>
-          </div>
-          <div className="dash-stat-card">
-            <div className="ds-icon" style={{ background: 'var(--orange-soft)' }}><Ic.MapPin size={20} color="var(--orange)" /></div>
-            <div className="ds-value" style={{ color: 'var(--orange)' }}>2.4 km</div>
-            <div className="ds-label">Distance Walked</div>
-            <div className="ds-delta ds-up">On schedule</div>
-          </div>
-          <div className="dash-stat-card">
-            <div className="ds-icon" style={{ background: 'var(--purple-soft)' }}><Ic.Award size={20} color="var(--purple)" /></div>
-            <div className="ds-value" style={{ color: 'var(--purple)' }}>100%</div>
-            <div className="ds-label">Attendance</div>
-            <div className="ds-delta ds-up">Perfect this week</div>
-          </div>
-        </div>
+        ) : (
+          <div style={{ padding: '24px 18px 0' }} />
+        )}
 
         <div className="screen-content" style={{ background: 'var(--bg-page)' }}>
+          {!isClockedIn && (
+            <div style={{ margin: '0 18px 24px', padding: '20px', background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', borderRadius: '20px', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 8px 20px rgba(16,185,129,0.3)' }}>
+              <div>
+                <h3 style={{ fontSize: '18px', fontWeight: '800', margin: '0 0 4px 0' }}>Ready for Duty?</h3>
+                <p style={{ fontSize: '13px', opacity: 0.9, margin: 0 }}>Clock in to start your shift</p>
+              </div>
+              <button onClick={() => onQuickAction('clockin')} style={{ background: 'white', color: '#059669', border: 'none', padding: '10px 16px', borderRadius: '12px', fontWeight: '800', fontSize: '14px', cursor: 'pointer', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
+                Start Shift
+              </button>
+            </div>
+          )}
 
           {/* Quick Actions */}
           <SectionTitle title="Quick Actions" />
@@ -111,9 +126,25 @@ export default function Dashboard({ onBell, onAvatar, onQuickAction }) {
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-              <Badge type="green" label="ON DUTY" />
+              {isClockedIn ? <Badge type="green" label="ON DUTY" /> : <Badge type="gray" label="OFFLINE" />}
             </div>
           </div>
+
+          {isClockedIn && (
+            <div style={{ margin: '0 18px 24px' }}>
+              <button 
+                onClick={() => onQuickAction('clockout')} 
+                style={{ 
+                  width: '100%', padding: '14px', background: '#fef2f2', 
+                  border: '1px solid #fca5a5', borderRadius: '16px', color: '#dc2626', 
+                  fontWeight: '800', fontSize: '15px', display: 'flex', alignItems: 'center', 
+                  justifyContent: 'center', gap: '8px', cursor: 'pointer' 
+                }}
+              >
+                <Ic.Power size={18} /> End Shift (Clock Out)
+              </button>
+            </div>
+          )}
 
           {/* Recent Activity */}
           <SectionTitle title="My Activity" action="History" />

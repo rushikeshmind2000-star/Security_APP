@@ -28,6 +28,7 @@ export const Plus          = p => <I {...p}><path d="M5 12h14"/><path d="M12 5v1
 export const Download      = p => <I {...p}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></I>;
 export const ChevronRight  = p => <I {...p}><path d="m9 18 6-6-6-6"/></I>;
 export const ChevronLeft   = p => <I {...p}><path d="m15 18-6-6 6-6"/></I>;
+export const ChevronDown   = p => <I {...p}><path d="m6 9 6 6 6-6"/></I>;
 export const X             = p => <I {...p}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></I>;
 export const Check         = p => <I {...p}><path d="M20 6 9 17l-5-5"/></I>;
 export const Edit          = p => <I {...p}><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></I>;
