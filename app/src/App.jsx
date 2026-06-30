@@ -19,6 +19,20 @@ export default function App() {
   
   const [tab, setTab]           = useState('home');
   const [overlay, setOverlay]   = useState(null); // 'sos' | 'notifications' | 'settings'
+  const [scale, setScale]       = useState(1);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      const vh = window.innerHeight;
+      const vw = window.innerWidth;
+      const scaleH = vh / 900; // 852 + padding
+      const scaleW = vw / 430; // 393 + padding
+      setScale(Math.min(scaleH, scaleW, 1));
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleNav = (id) => {
     if (id === 'sos') { setOverlay('sos'); return; }
@@ -53,7 +67,7 @@ export default function App() {
   };
 
   return (
-    <div className="phone-wrapper">
+    <div className="phone-wrapper" style={{ transform: `scale(${scale})`, transformOrigin: 'center' }}>
       <div className="phone-frame">
         <div className="dynamic-island" />
         <div className="phone-screen">

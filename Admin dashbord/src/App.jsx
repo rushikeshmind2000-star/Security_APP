@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
 import * as Ic from './components/Icons.jsx';
+import EmployeesPage from './components/EmployeesPage.jsx';
+import LeavesPage from './components/LeavesPage.jsx';
 
 /* ═══════════════════════════════════════
    DATA
@@ -76,9 +78,11 @@ const roles = [
 
 const navItems = [
   { id: 'dashboard',     Icon: Ic.Home,           label: 'Dashboard',       badge: null },
+  { id: 'employees',     Icon: Ic.UserCheck,      label: 'Employees',       badge: 'New' },
   { id: 'guards',        Icon: Ic.Users,          label: 'Guard Tracking',  badge: '24' },
   { id: 'shifts',        Icon: Ic.Clock,          label: 'Shift Management',badge: null },
   { id: 'attendance',    Icon: Ic.ClipboardCheck, label: 'Attendance',      badge: null },
+  { id: 'leaves',        Icon: Ic.FileText,       label: 'Leaves',          badge: '2' },
   { id: 'incidents',     Icon: Ic.AlertTriangle,  label: 'Incident Reports',badge: '5'  },
   { id: 'patrol',        Icon: Ic.Shield,         label: 'Route Patrol',    badge: null },
   { id: 'analytics',     Icon: Ic.BarChart,       label: 'Analytics',       badge: null },
@@ -93,9 +97,11 @@ const navItems = [
 ═══════════════════════════════════════ */
 const pageMeta = {
   dashboard:     { title: 'Dashboard',          sub: 'Watchmen Security Overview' },
+  employees:     { title: 'Employees',          sub: 'Manage Staff Profiles' },
   guards:        { title: 'Guard Tracking',     sub: 'Live GPS & Status' },
   shifts:        { title: 'Shift Management',   sub: 'Duty Scheduling' },
   attendance:    { title: 'Attendance',         sub: 'QR & Biometric Check-In' },
+  leaves:        { title: 'Leaves',             sub: 'Employee Leave Requests' },
   incidents:     { title: 'Incident Reports',   sub: 'Security Events' },
   patrol:        { title: 'Route Patrol',       sub: 'Live Monitoring' },
   analytics:     { title: 'Analytics',          sub: 'Reports & Insights' },
@@ -911,9 +917,11 @@ export default function App() {
 
   const pageComponents = {
     dashboard:     <DashboardPage />,
+    employees:     <EmployeesPage />,
     guards:        <GuardTrackingPage />,
     shifts:        <ShiftsPage />,
     attendance:    <AttendancePage />,
+    leaves:        <LeavesPage />,
     incidents:     <IncidentsPage />,
     patrol:        <PatrolPage />,
     analytics:     <AnalyticsPage />,
